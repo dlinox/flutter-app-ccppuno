@@ -1,11 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:teslo_shop/features/auth/auth.dart';
-import 'package:teslo_shop/features/products/products.dart';
+import 'package:ccp_puno_flutter/features/auth/auth.dart';
+import 'package:ccp_puno_flutter/features/products/products.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/login',
   routes: [
-
     ///* Auth Routes
     GoRoute(
       path: '/login',
@@ -22,5 +21,4 @@ final appRouter = GoRouter(
       builder: (context, state) => const ProductsScreen(),
     ),
   ],
-  ///! TODO: Bloquear si no se está autenticado de alguna manera
 );

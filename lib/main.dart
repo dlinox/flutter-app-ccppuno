@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teslo_shop/config/config.dart';
-import 'package:teslo_shop/config/router/app_router.dart';
+import 'package:ccp_puno_flutter/config/config.dart';
+import 'package:ccp_puno_flutter/config/router/app_router.dart';
 
 void main() {
   runApp(const MainApp());
