@@ -1,4 +1,6 @@
+import 'package:ccp_puno_flutter/features/auth/presentation/providers/login_form_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ccp_puno_flutter/features/shared/shared.dart';
 
@@ -45,13 +47,14 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends ConsumerWidget {
   const _LoginForm();
 
   @override
-  Widget build(BuildContext context) {
-    final textStyles = Theme.of(context).textTheme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginForm = ref.watch(loginFormProvider);
 
+    final textStyles = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -59,14 +62,20 @@ class _LoginForm extends StatelessWidget {
           const SizedBox(height: 50),
           Text('Login', style: textStyles.titleLarge),
           const SizedBox(height: 90),
-          const CustomTextFormField(
-            label: 'Correo',
-            keyboardType: TextInputType.emailAddress,
+          CustomTextFormField(
+            label: 'N° DNI',
+            keyboardType: TextInputType.number,
+            onChanged: ref.read(loginFormProvider.notifier).onDniChange,
+            errorMessage:
+                loginForm.isSubmit ? loginForm.dni.errorMessage : null,
           ),
           const SizedBox(height: 30),
-          const CustomTextFormField(
+          CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
+            onChanged: ref.read(loginFormProvider.notifier).onPasswordChange,
+            errorMessage:
+                loginForm.isSubmit ? loginForm.password.errorMessage : null,
           ),
           const SizedBox(height: 30),
           SizedBox(
@@ -75,7 +84,9 @@ class _LoginForm extends StatelessWidget {
               child: CustomFilledButton(
                 text: 'Ingresar',
                 buttonColor: Colors.black,
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(loginFormProvider.notifier).onFormSubmit();
+                },
               )),
           const Spacer(flex: 2),
           Row(
