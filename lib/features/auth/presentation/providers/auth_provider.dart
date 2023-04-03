@@ -20,10 +20,24 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
   final StorageService storageService;
 
-  AuthNotifier({required this.authRepository, required this.storageService})
-      : super(AuthState());
+  AuthNotifier({
+    required this.authRepository,
+    required this.storageService,
+  }) : super(AuthState()) {
+    checkSingIn();
+  }
 
-  void checkSingIn() {}
+  void checkSingIn() async {
+    final token = await storageService.getValue<String>('token');
+    if (token == null) return singOut();
+
+    try {
+      final usuario = await authRepository.checkSignIn(token);
+      _setCurrenUser(usuario);
+    } catch (e) {
+      singOut();
+    }
+  }
 
   Future<void> singIn(String dni, String password) async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -49,7 +63,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   void _setCurrenUser(Usuario usuario) async {
-    await storageService.setKeyValue('token', usuario.token);
+    await storageService.setValue('token', usuario.token);
 
     state = state.copyWith(
       usuario: usuario,

@@ -31,7 +31,12 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   onFormSubmit() async {
     _touchEveryField();
     if (!state.isValid) return;
+
+    state = state.copyWiht(isSubmit: true);
+
     await signInCallback(state.dni.value, state.password.value);
+
+    state = state.copyWiht(isSubmit: false);
   }
 
   _touchEveryField() {
@@ -39,7 +44,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     final password = Password.dirty(state.password.value);
 
     state = state.copyWiht(
-        isSubmit: true,
+        //isSubmit: true,
         dni: dni,
         password: password,
         isValid: Formz.validate([dni, password]));

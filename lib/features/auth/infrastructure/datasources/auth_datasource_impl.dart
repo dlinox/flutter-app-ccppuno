@@ -9,8 +9,29 @@ class AuthDatasourcesImple extends AuthDatasource {
   ));
 
   @override
-  Future<Usuario> checkSignIn(String token) {
-    throw UnimplementedError();
+  Future<Usuario> checkSignIn(String token) async {
+    //  await Future.delayed(const Duration(milliseconds: 5000));
+    print('check');
+    try {
+      final response = await dio.get('/auth/check-token',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+            'Accept': 'applcation/json'
+          }));
+
+      final usuario = UsuarioMapper.usuarioJsonToEntity(response.data);
+      return usuario;
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        throw AuthError('Token no valido');
+      }
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw AuthError('Revisar conexión a internet');
+      }
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
   }
 
   @override
