@@ -30,13 +30,14 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 
   onFormSubmit() async {
     _touchEveryField();
+
     if (!state.isValid) return;
 
-    state = state.copyWiht(isSubmit: true);
+    state = state.copyWiht(isLoading: true);
 
     await signInCallback(state.dni.value, state.password.value);
 
-    state = state.copyWiht(isSubmit: false);
+    state = state.copyWiht(isLoading: false);
   }
 
   _touchEveryField() {
@@ -44,7 +45,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     final password = Password.dirty(state.password.value);
 
     state = state.copyWiht(
-        //isSubmit: true,
+        isSubmit: true,
         dni: dni,
         password: password,
         isValid: Formz.validate([dni, password]));
@@ -52,14 +53,14 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 }
 
 class LoginFormState {
-  final bool isLogget;
+  final bool isLoading;
   final bool isSubmit;
   final bool isValid;
   final Password password;
   final Dni dni;
 
   LoginFormState({
-    this.isLogget = false,
+    this.isLoading = false,
     this.isSubmit = false,
     this.isValid = false,
     this.password = const Password.pure(),
@@ -67,14 +68,14 @@ class LoginFormState {
   });
 
   LoginFormState copyWiht({
-    bool? isLogget,
+    bool? isLoading,
     bool? isSubmit,
     bool? isValid,
     Password? password,
     Dni? dni,
   }) =>
       LoginFormState(
-        isLogget: isLogget ?? this.isLogget,
+        isLoading: isLoading ?? this.isLoading,
         isSubmit: isSubmit ?? this.isSubmit,
         isValid: isValid ?? this.isValid,
         password: password ?? this.password,
@@ -85,7 +86,7 @@ class LoginFormState {
   String toString() {
     return '''
     LoginFormState;
-      isLogget: $isLogget
+      isLogget: $isLoading
       isSubmit: $isSubmit
       isValid: $isValid
       password: $password
