@@ -9,7 +9,7 @@ class ProductsScreen extends StatelessWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
+      drawer: SideMenu(scaffoldKey: scaffoldKey, index: 0),
       appBar: AppBar(
         title: const Text('Products'),
         actions: [

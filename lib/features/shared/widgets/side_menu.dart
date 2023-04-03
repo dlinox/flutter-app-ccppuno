@@ -1,14 +1,16 @@
-import 'package:ccp_puno_flutter/features/auth/presentation/providers/auth_provider.dart';
-import 'package:ccp_puno_flutter/features/auth/presentation/providers/login_form_provider.dart';
 import 'package:flutter/material.dart';
-//import 'package:go_router/go_router.dart';
-import 'package:ccp_puno_flutter/features/shared/shared.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:ccp_puno_flutter/features/auth/auth.dart';
+import 'package:ccp_puno_flutter/features/shared/shared.dart';
+import 'package:ccp_puno_flutter/config/menu/menu_items.dart';
 
 class SideMenu extends ConsumerStatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final int index;
 
-  const SideMenu({super.key, required this.scaffoldKey});
+  const SideMenu({super.key, required this.scaffoldKey, required this.index});
 
   @override
   SideMenuState createState() => SideMenuState();
@@ -16,6 +18,12 @@ class SideMenu extends ConsumerStatefulWidget {
 
 class SideMenuState extends ConsumerState<SideMenu> {
   int navDrawerIndex = 0;
+  @override
+  void initState() {
+    navDrawerIndex = widget.index;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +38,25 @@ class SideMenuState extends ConsumerState<SideMenu> {
             navDrawerIndex = value;
           });
 
-          // final menuItem = appMenuItems[value];
-          // context.push( menuItem.link );
+          final menuItem = appMenuItems[value];
+          context.push(menuItem.link);
           widget.scaffoldKey.currentState?.closeDrawer();
         },
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(20, hasNotch ? 0 : 20, 16, 0),
-            child: Text('Saludos', style: textStyles.titleMedium),
+            child: Text('Bienvenido', style: textStyles.titleMedium),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 16, 10),
-            child: Text('Tony Stark', style: textStyles.titleSmall),
+            child: Text(ref.read(authProvider).usuario!.nombre,
+                style: const TextStyle(fontSize: 15)),
           ),
-          const NavigationDrawerDestination(
-            icon: Icon(Icons.home_outlined),
-            label: Text('Productos'),
+          ...appMenuItems.map(
+            (item) => NavigationDrawerDestination(
+              icon: Icon(item.icon),
+              label: Text(item.title),
+            ),
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
