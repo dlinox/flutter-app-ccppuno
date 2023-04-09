@@ -1,13 +1,11 @@
-import 'package:ccp_puno_flutter/features/shared/infrastructure/services/storage_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:ccp_puno_flutter/features/auth/domain/domain.dart';
+import 'package:ccp_puno_flutter/features/shared/infrastructure/services/storage_service.dart';
 import 'package:ccp_puno_flutter/features/auth/infrastructure/infrastructure.dart';
 import 'package:ccp_puno_flutter/features/shared/infrastructure/services/storage_service_impl.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = AuthRepositoryImpl();
-
   final storageService = StorageServiceImpl();
 
   return AuthNotifier(
