@@ -17,7 +17,6 @@ class PagosDatasourceImpl extends PagosDatasource {
   Future<List<Pago>> getPagos({int limit = 10, int offset = 0}) async {
     final res = await dio.get('/agremiado/pagos-pendientes');
 
-    print(res.data['data']);
     final List<Pago> pagos = [];
     for (final pago in res.data['data'] ?? []) {
       pagos.add(PagoMapper.jsonToEntity(pago));

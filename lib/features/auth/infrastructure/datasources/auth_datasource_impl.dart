@@ -11,7 +11,7 @@ class AuthDatasourcesImple extends AuthDatasource {
   @override
   Future<Usuario> checkSignIn(String token) async {
     //  await Future.delayed(const Duration(milliseconds: 5000));
-    print('check');
+
     try {
       final response = await dio.get('/auth/check-token',
           options: Options(headers: {
