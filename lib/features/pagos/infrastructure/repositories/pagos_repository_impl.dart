@@ -11,7 +11,8 @@ class PagosRepositoryImpl extends PagosRepository {
   }
 
   @override
-  Future<List<Pago>> getPagosPendientes({int limit = 10, int offset = 0}) {
-    return datasource.getPagosPendientes(limit: limit, offset: offset);
+  Future<PagoResponse> getPagosPendientes(
+      {String url = '/agremiado/pagos-pendientes'}) {
+    return datasource.getPagosPendientes(url: url);
   }
 }

@@ -25,7 +25,10 @@ class PagosDatasourceImpl extends PagosDatasource {
   }
 
   @override
-  Future<List<Pago>> getPagosPendientes({int limit = 10, int offset = 0}) {
-    throw UnimplementedError();
+  Future<PagoResponse> getPagosPendientes(
+      {String url = '/agremiado/pagos-pendientes'}) async {
+    final res = await dio.get(url);
+    final PagoResponse pagoResponse = PagoResponseMapper.jsonToEntity(res.data);
+    return pagoResponse;
   }
 }

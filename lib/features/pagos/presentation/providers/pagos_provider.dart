@@ -24,7 +24,7 @@ class PagosNotifier extends StateNotifier<PagosState> {
     state = state.copyWith(
       isLoadding: false,
       page: 1,
-      pagos: [...state.pagos, ...pagos],
+      pagos: [...pagos],
     );
   }
 }

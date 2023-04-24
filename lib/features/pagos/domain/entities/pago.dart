@@ -25,3 +25,21 @@ class Pago {
     this.cuotas,
   });
 }
+
+class PagoResponse {
+  final List<Pago> pagos;
+  final int page;
+  final int total;
+  final int lastPage;
+  final String? nextPageUrl;
+  final String? prevPageUrl;
+
+  PagoResponse({
+    required this.page,
+    required this.pagos,
+    required this.total,
+    required this.lastPage,
+    this.nextPageUrl,
+    this.prevPageUrl,
+  });
+}
